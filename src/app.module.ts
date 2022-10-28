@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import {ConfigModule} from "@nestjs/config";
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env'
-  })],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
+  ],
   controllers: [],
   providers: [],
 })
