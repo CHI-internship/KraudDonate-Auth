@@ -1,1 +1,2 @@
 PORT=5200
+DATABASE_URL="postgresql://postgres:root@localhost:7532/auth"
