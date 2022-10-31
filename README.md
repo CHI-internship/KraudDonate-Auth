@@ -23,6 +23,23 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running the database
+
+```bash
+# 1 (only once if you have not built before, otherwise step 2)
+$ docker build -t postgresdb .
+
+# 2
+$ docker run -d --name postgresdb -p 7532:5432 postgresdb
+
+# connect to the database local viewer
+host     - localhost
+port     - 7532
+database - auth
+username - postgres
+password - root
+```
+
 
 ## Technology
 
