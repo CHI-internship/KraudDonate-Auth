@@ -23,6 +23,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+
 ## Running the database
 
 ```bash
@@ -42,8 +43,6 @@ database - auth
 username - postgres
 password - root
 ```
-
-
 ## Technology
 
     * NestJS
