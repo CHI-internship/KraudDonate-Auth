@@ -23,6 +23,26 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+
+## Running the database
+
+```bash
+# 1 (only once if you have not built before, otherwise step 2)
+$ npm run buildDb 
+
+# 2 Run the database
+$ npm run upDb
+
+# 3 Down the database
+$ npm run stopDb
+
+# Connect to the database local viewer
+host     - localhost
+port     - 7532
+database - auth
+username - postgres
+password - root
+```
 ## Technology
 
     * NestJS
