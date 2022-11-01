@@ -20,17 +20,20 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky install",
-    "migration:create": "npx prisma migrate dev --name"
+    "migration:create": "npx prisma migrate dev --name",
     "buildDb": "docker build -t postgresdb . ",
     "upDb": "docker run -d --name postgresdb --rm -v /postgres-data:/var/lib/postgresql/data -p 7532:5432 postgresdb",
     "stopDb": "docker stop postgresdb"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.5.0",
+    "nodemailer": "^6.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
