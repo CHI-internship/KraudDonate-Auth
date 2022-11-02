@@ -11,11 +11,12 @@ export class UsersService {
     });
   }
 
-  async createUser(email: string, password: string) {
+  async createUser(email: string, password: string, role ) {
     return this.prismaService.user.create({
       data: {
         email,
         password,
+        role
       },
     });
   }
