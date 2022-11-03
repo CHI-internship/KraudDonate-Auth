@@ -1,7 +1,7 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as crypto from 'crypto';
 
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,8 +25,16 @@ export class AuthService {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 6);
-    const user = await this.usersService.createUser(email, hashedPassword, role);
+    const hashedPassword = crypto
+      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
+      .update(password)
+      .digest('hex');
+
+    const user = await this.usersService.createUser(
+      email,
+      hashedPassword,
+      role,
+    );
 
     return 'User was created';
   }
@@ -45,9 +53,12 @@ export class AuthService {
       throw new BadRequestException('Wrong email or password ');
     }
 
-    const passwordEquals = await bcrypt.compare(password, user.password);
+    const comparePassword = crypto
+      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
+      .update(password)
+      .digest('hex');
 
-    if (!passwordEquals) {
+    if (comparePassword !== user.password) {
       throw new BadRequestException('Wrong email or password ');
     }
 
