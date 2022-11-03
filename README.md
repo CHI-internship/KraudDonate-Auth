@@ -9,21 +9,6 @@ It is used to develop authorization.
 ```bash
 $ npm install
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-
 ## Running the database
 
 ```bash
@@ -42,6 +27,24 @@ port     - 7532
 database - auth
 username - postgres
 password - root
+```
+
+## Running the migration
+
+```bash
+$ npx prisma migrate dev 
+```
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
 ```
 ## Technology
 
