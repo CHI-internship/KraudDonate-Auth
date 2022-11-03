@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Patch, Post } from '@nestjs/common';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PasswordService } from './password.service';
@@ -12,14 +12,13 @@ export class PasswordController {
     return this.passwordService.forgotPassword(email)
   }
 
-  @Put('reset')
+  @Patch('reset')
   resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto) {
     return this.passwordService.resetPassword(resetPasswordDto)
   }
 
-  //add CurrentUserDecorator
-  @Put('update')
+  @Patch('update')
   updatePassword(@Body() updatePasswordDto: UpdatePasswordDto) {
     return this.passwordService.updatePassword(updatePasswordDto)
   }
