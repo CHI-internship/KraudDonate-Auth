@@ -1,8 +1,8 @@
-import { PrismaService } from 'src/prisma.service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/services/prisma.service';
 
 
 @Injectable()
