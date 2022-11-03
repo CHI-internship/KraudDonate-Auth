@@ -36,7 +36,7 @@ export class AuthService {
       role,
     );
 
-    return 'User was created';
+    return this.generateToken(email,role);
   }
 
   async login(userDto: LoginUserDto) {
