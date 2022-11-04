@@ -13,7 +13,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async registration(userDto: CreateUserDto) {
     const { email, password, role } = userDto;
@@ -36,7 +36,7 @@ export class AuthService {
       role,
     );
 
-    return this.generateToken(email,role);
+    return this.generateToken(email, role);
   }
 
   async login(userDto: LoginUserDto) {
@@ -65,7 +65,7 @@ export class AuthService {
     return user;
   }
 
-  private async generateToken(email: string, role: string) {
+  async generateToken(email: string, role: string) {
     const payload = { email, role };
     return this.jwtService.sign(payload);
   }
