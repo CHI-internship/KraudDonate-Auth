@@ -1,26 +1,26 @@
+import { hash } from 'src/utils/hash';
+import { AuthService } from 'src/auth/auth.service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
-
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class PasswordService {
-    constructor(private prisma: PrismaService,
-        private mailService: MailerService) { }
+    constructor(
+        private prisma: PrismaService,
+        private mailService: MailerService,
+        private authService: AuthService) { }
 
-    async all() {
-        return this.prisma.user.findMany()
-    }
 
     async forgotPassword(email: string) {
-        const resetToken = Math.random().toString()
-
         const user = await this.prisma.user.findFirst({ where: { email } })
             .catch(() => {
                 throw new NotFoundException('No user found with this email.')
             })
+
+        const resetToken = await this.authService.generateToken(user.email, user.role)
 
         await this.prisma.tokens.upsert({
             where: { user_id: user.id },
@@ -28,7 +28,7 @@ export class PasswordService {
             create: { user_id: user.id, resetToken },
         })
 
-        const resetUrl = `http://localhost:${process.env.PORT}/reset/?resetToken=${resetToken}`
+        const resetUrl = `${process.env.MAIN_FRONT_BASE}/reset?resetToken=${resetToken}`
         await this.mailService.sendMail({
             to: email,
             from: 'krauddonate@gmail.com',
@@ -47,12 +47,14 @@ export class PasswordService {
         }
 
         const token = await this.prisma.tokens.findFirst({
-            where: { resetToken: resetPasswordDto.resetToken },
+            where: { resetToken: resetPasswordDto.resetToken }
         }).catch((err) => { throw new BadRequestException(err) })
+
+        const hashedNewPassword = hash(resetPasswordDto.newPassword)
 
         await this.prisma.user.update({
             where: { id: token.user_id },
-            data: { password: resetPasswordDto.newPassword }
+            data: { password: hashedNewPassword }
         })
 
         return { success: true }
@@ -64,15 +66,18 @@ export class PasswordService {
             where: { id: updatePasswordDto.userId }
         })
 
+        const compareOldPassword = hash(updatePasswordDto.oldPassword)
+
         if (!user) {
             throw new BadRequestException('User not found.')
-        } else if (updatePasswordDto.oldPassword !== user.password) {
+        } else if (compareOldPassword !== user.password) {
             throw new BadRequestException('Old password was entered incorrectly.')
         }
 
+        const hashedNewPassword = hash(updatePasswordDto.newPassword)
         await this.prisma.user.update({
             where: { id: updatePasswordDto.userId },
-            data: { password: updatePasswordDto.newPassword }
+            data: { password: hashedNewPassword }
         })
 
         return { success: true }
