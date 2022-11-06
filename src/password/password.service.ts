@@ -6,6 +6,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PrismaService } from 'src/services/prisma.service';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RESET_TEMP } from 'src/templates/reset-password';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 
 
 @Injectable()
@@ -15,7 +16,7 @@ export class PasswordService {
         private mailService: MailerService,
         private authService: AuthService) { }
 
-    async forgotPassword(email: string) {
+    async forgotPassword({ email }: ForgotPasswordDto) {
         const user = await this.prisma.user.findFirst({ where: { email } })
             .catch(() => {
                 throw new NotFoundException('No user found with this email.')
