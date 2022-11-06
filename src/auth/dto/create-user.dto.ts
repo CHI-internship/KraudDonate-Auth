@@ -4,13 +4,15 @@ export class CreateUserDto {
   @ApiProperty({
     example: 'email@gmail.com',
     description: 'User email',
-    uniqueItems: true
+    uniqueItems: true,
+    type: String
   })
   email: string;
 
   @ApiProperty({
     example: 'qwerty123',
-    description: 'User password'
+    description: 'User password',
+    type: String
   })
   password: string;
 
@@ -18,7 +20,8 @@ export class CreateUserDto {
     example: 'customer',
     description: 'User role',
     enum: ['customer', 'volunteer', 'admin'],
-    default: 'customer'
+    default: 'customer',
+    type: String
   })
   role?: string;
 }

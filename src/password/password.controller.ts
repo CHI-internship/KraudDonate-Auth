@@ -11,7 +11,7 @@ export class PasswordController {
   constructor(private readonly passwordService: PasswordService) { }
 
   @ApiOperation({ summary: 'Forgot password' })
-  @ApiResponse({ status: 201 })
+  @ApiResponse({ status: 201, description: 'Sends email with link' })
   @Post('forgot')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.passwordService.forgotPassword(forgotPasswordDto)

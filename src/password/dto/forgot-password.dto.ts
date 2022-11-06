@@ -4,7 +4,8 @@ export class ForgotPasswordDto {
     @ApiProperty({
         example: 'user@gmail.com',
         description: 'User email',
-        uniqueItems: true
+        uniqueItems: true,
+        type: String
     })
     email: string
 }
