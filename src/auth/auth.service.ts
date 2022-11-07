@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     const hashedPassword = crypto
-      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
+      .createHmac(process.env.ALGORITM_DECODE_PASSWORD!, password)
       .update(password)
       .digest('hex');
 
@@ -54,7 +54,7 @@ export class AuthService {
     }
 
     const comparePassword = crypto
-      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
+      .createHmac(process.env.ALGORITM_DECODE_PASSWORD!, password)
       .update(password)
       .digest('hex');
 
