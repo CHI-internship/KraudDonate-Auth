@@ -23,7 +23,8 @@
     "migration:create": "npx prisma migrate dev --name",
     "buildDb": "docker build -t postgresdb . ",
     "upDb": "docker run -d --name postgresdb --rm -v /postgres-data:/var/lib/postgresql/data -p 7532:5432 postgresdb",
-    "stopDb": "docker stop postgresdb"
+    "stopDb": "docker stop postgresdb",
+    "runRedis" : "docker run -d -p 6379:6379 --name redis --rm --network redisnet redis"
   },
   "dependencies": {
     "@bull-board/api": "^4.6.2",
