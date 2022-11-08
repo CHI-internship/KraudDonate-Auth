@@ -1,8 +1,7 @@
+import { hash } from 'src/utils/hash';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../services/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import * as crypto from 'crypto';
-
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from '../services/users.service';
@@ -25,10 +24,7 @@ export class AuthService {
       );
     }
 
-    const hashedPassword = crypto
-      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
-      .update(password)
-      .digest('hex');
+    const hashedPassword = hash(password)
 
     const user = await this.usersService.createUser(
       email,
@@ -53,10 +49,7 @@ export class AuthService {
       throw new BadRequestException('Wrong email or password ');
     }
 
-    const comparePassword = crypto
-      .createHmac(process.env.ALGORITM_DECODE_PASSWORD, password)
-      .update(password)
-      .digest('hex');
+    const comparePassword = hash(password)
 
     if (comparePassword !== user.password) {
       throw new BadRequestException('Wrong email or password ');
