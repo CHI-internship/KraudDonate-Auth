@@ -6,6 +6,8 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PrismaService } from 'src/services/prisma.service';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RESET_TEMP } from 'src/templates/reset-password';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 
 @Injectable()
@@ -13,7 +15,8 @@ export class PasswordService {
     constructor(
         private prisma: PrismaService,
         private mailService: MailerService,
-        private authService: AuthService) { }
+        private authService: AuthService,
+        @InjectQueue('reset') private readonly resetQueue: Queue) { }
 
     async forgotPassword(email: string) {
         const user = await this.prisma.user.findFirst({ where: { email } })
@@ -27,7 +30,9 @@ export class PasswordService {
             where: { user_id: user.id },
             update: { resetToken },
             create: { user_id: user.id, resetToken },
-        })
+        }).then(async (data) =>
+            await this.resetQueue.add('delResetToken', data.id, { delay: 5000 })
+        )
 
         const resetUrl = `${process.env.MAIN_FRONT_BASE}/reset?resetToken=${resetToken}`
         await this.mailService.sendMail({
