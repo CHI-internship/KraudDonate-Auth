@@ -31,8 +31,7 @@ export class PasswordService {
             update: { resetToken },
             create: { user_id: user.id, resetToken },
         }).then(async (data) =>
-            await this.resetQueue.add('delResetToken', data.id, { delay: 5000 })
-        )
+            await this.resetQueue.add('delResetToken', data.id, { delay: 604800 }))
 
         const resetUrl = `${process.env.MAIN_FRONT_BASE}/reset?resetToken=${resetToken}`
         await this.mailService.sendMail({

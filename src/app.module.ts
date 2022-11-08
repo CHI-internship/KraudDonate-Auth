@@ -15,10 +15,7 @@ import { BullModule } from '@nestjs/bull';
       }
     }),
     BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+      redis: { host: 'localhost', port: 6379 },
     }),
     PasswordModule,
     AuthModule,
