@@ -1,7 +1,9 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
+import { AjvValidationPipe } from 'src/utils/validator/validation';
+import { CreateUserSchema, LoginUserSchema } from 'src/utils/validator/user';
 
 @Controller('auth')
 export class AuthController {
@@ -9,6 +11,7 @@ export class AuthController {
 
   @Post('/signup')
   @HttpCode(201)
+  @UsePipes(new AjvValidationPipe(CreateUserSchema))
   async registration(@Body() userDto: CreateUserDto) {
     try {
       return this.authService.registration(userDto);
@@ -19,6 +22,7 @@ export class AuthController {
 
   @Post('/signin')
   @HttpCode(201)
+  @UsePipes(new AjvValidationPipe(LoginUserSchema))
   async login(@Body() userDto: LoginUserDto) {
     try {
       return this.authService.login(userDto);

@@ -1,9 +1,7 @@
-import Ajv from 'ajv';
+import { JSONSchemaType } from "ajv";
+import { UserRoles } from "src/auth/dto/roles.dto";
 
-const ajv = new Ajv()
-
-ajv.addKeyword('roles', { compile: function(schema) {
-  return function(data) {
-
-  };
-} });
+export const Role: JSONSchemaType<UserRoles> = {
+  type: "string",
+  enum: ["customer", "volunteer", "admin"]
+}

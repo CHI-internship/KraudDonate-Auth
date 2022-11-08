@@ -2,6 +2,7 @@ import { JSONSchemaType } from "ajv";
 import { CreateUserDto } from "src/auth/dto/create-user.dto";
 import { email } from "../shared/email.schema";
 import { password } from "../shared/password.schema";
+import { Role } from "./roles.schema";
 
 
 export const CreateUserSchema: JSONSchemaType<CreateUserDto> = {
@@ -9,8 +10,8 @@ export const CreateUserSchema: JSONSchemaType<CreateUserDto> = {
   properties: {
     email: email,
     password: password,
-    role: {type: "string", nullable: true}
+    role: Role
    },
-  required: ["email", "password"],
+  required: ["email", "password", "role"],
   additionalProperties: false
 }

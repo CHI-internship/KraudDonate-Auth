@@ -2,7 +2,7 @@ import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { SchemaType } from './types';
-
+import ajvErrors from 'ajv-errors'
 
 @Injectable()
 export class AjvValidationPipe implements PipeTransform {
@@ -10,8 +10,9 @@ export class AjvValidationPipe implements PipeTransform {
 
   constructor(private schema: JSONSchemaType<SchemaType>) {
     if (!this._ajv) {
-      this._ajv = new Ajv({allErrors: true});
+      this._ajv = new Ajv({allErrors: true, $data: true,});
       addFormats(this._ajv);
+      ajvErrors(this._ajv);
     }
   }
 
@@ -19,10 +20,10 @@ export class AjvValidationPipe implements PipeTransform {
     if (!this.schema) {
       throw new Error('No scheme provided');
     }
-
+        
     const validate = this._ajv.compile(this.schema);
     const isValid = validate(value);
-
+    
     if (validate.errors) {
       let resError: Array<string> = [];
 
