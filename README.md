@@ -1,4 +1,3 @@
-
 ## KraudDonate-Auth
 
 KraudDonate-Service is part of the KraudDonate application to help volunteers.
@@ -9,17 +8,21 @@ It is used to develop authorization.
 ```bash
 $ npm install
 ```
+
 ## Running the database
 
 ```bash
 # 1 (only once if you have not built before, otherwise step 2)
-$ npm run buildDb 
+$ npm run buildDb
 
 # 2 Run the database
 $ npm run upDb
 
 # 3 Down the database
 $ npm run stopDb
+
+# Run Redis
+$ npm run runRedis
 
 # Connect to the database local viewer
 host     - localhost
@@ -32,8 +35,9 @@ password - root
 ## Running the migration
 
 ```bash
-$ npx prisma migrate dev 
+$ npx prisma migrate dev
 ```
+
 ## Running the app
 
 ```bash
@@ -46,6 +50,7 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
 ## Technology
 
     * NestJS
