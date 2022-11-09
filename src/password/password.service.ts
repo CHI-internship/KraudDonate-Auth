@@ -4,7 +4,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { PrismaService } from 'src/services/prisma.service';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpCode, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { RESET_TEMP } from 'src/templates/reset-password';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -24,6 +24,8 @@ export class PasswordService {
                 throw new NotFoundException('No user found with this email.')
             })
 
+        if (!user) throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+   
         const resetToken = await this.authService.generateToken(user.email, user.role)
 
         await this.prisma.tokens.upsert({
@@ -55,6 +57,8 @@ export class PasswordService {
         }).catch((err) => { throw new BadRequestException(err) })
 
         const hashedNewPassword = hash(resetPasswordDto.newPassword)
+
+        if (!token) throw new HttpException('Token not found', HttpStatus.BAD_REQUEST);
 
         await this.prisma.user.update({
             where: { id: token.user_id },
