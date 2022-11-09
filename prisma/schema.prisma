@@ -22,8 +22,8 @@ model Tokens {
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int      @unique
   resetToken String?  @unique
-  usedAt     String?
-  expiredAt  String?
+  usedAt     DateTime?
+  expiredAt  DateTime?
   createdAt  DateTime @default(now())
 }
 
