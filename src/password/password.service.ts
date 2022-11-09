@@ -25,7 +25,10 @@ export class PasswordService {
   }
 
   async forgotPassword(email: string) {
-    const user = await this.userService.getUserByEmail(email);
+    const user = await this.userService.getUserByEmail(email)
+      .catch(() => {
+        throw new NotFoundException('No user found with this email.')
+      });
       
     if (!user) throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
 

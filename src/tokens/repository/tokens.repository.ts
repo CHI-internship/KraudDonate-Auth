@@ -8,6 +8,8 @@ export default class TokensRepository extends Repository {
         user_id: id,
         resetToken,
       }
+    }).catch((e) => {
+      throw new Error(e);
     })
 
     return token;
@@ -16,8 +18,8 @@ export default class TokensRepository extends Repository {
   async getToken(resetToken: string) {
     const token = await this.prismaService.tokens.findFirst({
       where: {resetToken: resetToken, usedAt: null}
-    }).catch((err) => {
-      throw new BadRequestException(err);
+    }).catch((e) => {
+      throw new Error(e);
     })
 
     return token;
@@ -27,6 +29,8 @@ export default class TokensRepository extends Repository {
     const token = await this.prismaService.tokens.update({
       where: {resetToken: resetToken},
       data: {usedAt: new Date().toISOString()}
+    }).catch((e) => {
+      throw new Error(e);
     })
 
     return token;

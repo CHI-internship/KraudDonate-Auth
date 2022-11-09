@@ -9,7 +9,9 @@ export default abstract class Repository {
   async query(query: string) {
     const data = await this.prismaService.$queryRaw(
       Prisma.sql`${query}`
-    );
+    ).catch((e) => {
+      throw new Error(e);
+    })
 
     return data;
   }

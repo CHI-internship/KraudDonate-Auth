@@ -5,7 +5,9 @@ export default class UserRepository extends Repository {
   async getUserByEmail(email: string) {
     const user = await this.prismaService.user.findFirst({
       where: { email },
-    });
+    }).catch((e) => {
+      throw new Error(e);
+    })
     
     return user;
   }
@@ -17,7 +19,9 @@ export default class UserRepository extends Repository {
         password,
         role,
       },
-    });
+    }).catch((e) => {
+      throw new Error(e);
+    })
 
     return user;
   }
@@ -26,6 +30,8 @@ export default class UserRepository extends Repository {
     const user = await this.prismaService.user.update({
       where: {id: id},
       data: {password: password}
+    }).catch((e) => {
+      throw new Error(e);
     })
 
     return user;
@@ -34,6 +40,8 @@ export default class UserRepository extends Repository {
   async getUserById(id: number) {
     const user = await this.prismaService.user.findFirst({
       where: {id: id}
+    }).catch((e) => {
+      throw new Error(e);
     })
 
     return user;
