@@ -18,10 +18,13 @@ model User {
 }
 
 model Tokens {
-  id         Int     @id @default(autoincrement())
-  user       User    @relation(fields: [user_id], references: [id])
-  user_id    Int     @unique
-  resetToken String? @unique
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int      @unique
+  resetToken String?  @unique
+  usedAt     String?
+  expiredAt  String?
+  createdAt  DateTime @default(now())
 }
 
 enum Role {

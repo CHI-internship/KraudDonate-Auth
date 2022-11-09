@@ -3,6 +3,9 @@ CREATE TABLE "Tokens" (
     "id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
     "resetToken" TEXT,
+    "usedAt" TEXT,
+    "expiredAt" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Tokens_pkey" PRIMARY KEY ("id")
 );
