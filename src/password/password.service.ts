@@ -31,8 +31,7 @@ export class PasswordService {
             data: {
                 user_id: user.id,
                 resetToken,
-                expiredAt: (new Date().getDate() +
-                    Number(process.env.RESET_TOKEN_EXPIRE!)).toString()
+                expiredAt: (new Date().getDate() + 7).toString()
             }
         }).then(async (data) =>
             await this.resetQueue.add('delResetToken', data.id, { delay: 604800000 }))
