@@ -1,22 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '../services/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import * as crypto from 'crypto';
-
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from '../services/users.service';
+import { UserService } from 'src/user/user.service';
+
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
-    private usersService: UsersService,
+    private usersService: UserService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async registration(userDto: CreateUserDto) {
     const { email, password, role } = userDto;
+    
     const candidate = await this.usersService.getUserByEmail(email);
 
     if (candidate) {
