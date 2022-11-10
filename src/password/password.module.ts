@@ -7,6 +7,6 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   controllers: [PasswordController],
   providers: [PasswordService, PrismaService],
-  imports: [AuthModule]
+  imports: [AuthModule],
 })
-export class PasswordModule { }
+export class PasswordModule {}
