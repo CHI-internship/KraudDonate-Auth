@@ -4,6 +4,7 @@ import { PasswordModule } from './password/password.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { AuthModule } from './auth/auth.module';
 import { BullModule } from '@nestjs/bull';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { BullModule } from '@nestjs/bull';
     }),
     PasswordModule,
     AuthModule,
+    UserModule,
   ]
 })
 export class AppModule { }
