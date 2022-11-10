@@ -47,9 +47,9 @@ export class AuthService {
     const { email, password } = userDto;
 
     const user = await this.usersService.getUserByEmail(email);
-
+   
     if (!user) {
-      throw new BadRequestException('Wrong email or password ');
+      throw new BadRequestException('Wrong email');
     }
 
     const comparePassword = crypto
@@ -58,7 +58,7 @@ export class AuthService {
       .digest('hex');
 
     if (comparePassword !== user.password) {
-      throw new BadRequestException('Wrong email or password ');
+      throw new BadRequestException('Wrong password');
     }
 
     return user;
