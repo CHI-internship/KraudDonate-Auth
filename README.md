@@ -38,6 +38,14 @@ password - root
 $ npx prisma migrate dev
 ```
 
+## Running the seed
+
+```bash
+$ npx prisma db seed
+
+user password - 12345678
+```
+
 ## Running the app
 
 ```bash
