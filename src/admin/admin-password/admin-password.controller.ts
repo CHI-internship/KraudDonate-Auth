@@ -13,12 +13,12 @@ export class AdminPassController {
   }
 
   @Patch('reset')
-  resetAdminPass(@Body() resetPassDto: AdminResetPassDto) {
-    return this.adminService.resetPass(resetPassDto);
+  resetAdminPass(@Body() resetPassPayload: AdminResetPassDto) {
+    return this.adminService.resetPass(resetPassPayload);
   }
 
   @Patch('update')
-  updateAdminPass(@Body() updatePassDto: AdminUpdatePassDto) {
-    return this.adminService.updatePass(updatePassDto);
+  updateAdminPass(@Body() updatePassPayload: AdminUpdatePassDto) {
+    return this.adminService.updatePass(updatePassPayload);
   }
 }

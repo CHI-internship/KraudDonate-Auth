@@ -12,13 +12,13 @@ export class AdminAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async adminLogin(adminDto: LoginAdminDto) {
-    const admin = await this.validateAdmin(adminDto);
+  async adminLogin(adminPayload: LoginAdminDto) {
+    const admin = await this.validateAdmin(adminPayload);
     return await this.generateToken(admin.email, admin.id);
   }
 
-  async validateAdmin(adminDto: LoginAdminDto) {
-    const { email, password } = adminDto;
+  async validateAdmin(adminPayload: LoginAdminDto) {
+    const { email, password } = adminPayload;
     const admin = await this.adminService.getAdminByEmail(email);
 
     if (!admin) {
@@ -27,7 +27,7 @@ export class AdminAuthService {
 
     const comparePassword = hash(password);
 
-    if (comparePasswords(comparePassword, admin.password)) {
+    if (!comparePasswords(comparePassword, admin.password)) {
       throw new BadRequestException('Wrong password');
     }
     return admin;

@@ -8,11 +8,7 @@ export class AdminAuthController {
 
   @Post('sign-in')
   @HttpCode(201)
-  async adminLogin(@Body() adminDto: LoginAdminDto) {
-    try {
-      return this.adminAuthService.adminLogin(adminDto);
-    } catch (err) {
-      throw err;
-    }
+  async adminLogin(@Body() adminPayload: LoginAdminDto) {
+    return this.adminAuthService.adminLogin(adminPayload);
   }
 }

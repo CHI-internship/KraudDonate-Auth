@@ -30,28 +30,28 @@ export class AdminPassService {
       subject: 'Password reset for admin',
       html: resetUrl,
     });
-    return `Email was sent to ${email}`;
+    return { success: true };
   }
 
-  async resetPass(resetPassDto: AdminResetPassDto) {
-    const { newPassword, confirmPassword, email } = resetPassDto;
+  async resetPass(resetPassPayload: AdminResetPassDto) {
+    const { newPassword, confirmPassword, email } = resetPassPayload;
     const admin = await this.adminService.getAdminByEmail(email);
 
     if (!admin) {
       throw new BadRequestException('Admin does not exist');
-    } else if (comparePasswords(newPassword, confirmPassword)) {
+    } else if (!comparePasswords(newPassword, confirmPassword)) {
       throw new BadRequestException('Passwords do not match');
     }
 
     const newAdminPass = hash(newPassword);
     await this.adminService.updateAdminPassword(admin.email, newAdminPass);
 
-    return 'Password was updated';
+    return { success: true };
   }
 
-  async updatePass(updatePassDto: AdminUpdatePassDto) {
+  async updatePass(updatePassPayload: AdminUpdatePassDto) {
     const { oldPassword, newPassword, newPasswordConfirm, email } =
-      updatePassDto;
+      updatePassPayload;
     const admin = await this.adminService.getAdminByEmail(email);
 
     const hashedOldPass = hash(oldPassword);
@@ -60,15 +60,15 @@ export class AdminPassService {
 
     if (!admin) {
       throw new BadRequestException('Admin does not exist');
-    } else if (comparePasswords(admin.password, hashedOldPass)) {
+    } else if (!comparePasswords(admin.password, hashedOldPass)) {
       throw new BadRequestException('Wrong password');
     }
 
-    if (comparePasswords(hashedNewPass, hashedNewPassConfirm)) {
+    if (!comparePasswords(hashedNewPass, hashedNewPassConfirm)) {
       throw new BadRequestException('Passwords do not match');
     }
 
     await this.adminService.updateAdminPassword(email, hashedNewPass);
-    return 'Password was updated';
+    return { success: true };
   }
 }
