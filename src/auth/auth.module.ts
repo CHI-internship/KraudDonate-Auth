@@ -14,10 +14,10 @@ import { UserModule } from 'src/user/user.module';
         expiresIn: '1d',
       },
     }),
-    UserModule
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService],
-  exports: [AuthService]
+  providers: [AuthService, PrismaService, UserService],
+  exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

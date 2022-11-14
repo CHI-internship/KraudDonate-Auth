@@ -11,13 +11,18 @@ import TokensRepository from 'src/tokens/repository/tokens.repository';
 
 @Module({
   controllers: [PasswordController],
-  providers: [PasswordService, PrismaService, PasswordProcessor, TokensRepository],
+  providers: [
+    PasswordService,
+    PrismaService,
+    PasswordProcessor,
+    TokensRepository,
+  ],
   imports: [
     AuthModule,
     BullModule.registerQueue({
-      name: 'reset'
+      name: 'reset',
     }),
-    UserModule
+    UserModule,
   ]
 })
-export class PasswordModule { }
+export class PasswordModule {}
