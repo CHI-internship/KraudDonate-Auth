@@ -14,7 +14,7 @@ model User {
   role      Role     @default(customer)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  tokens    Tokens?
+  tokens    Tokens[]
 }
 
 model Admin {
@@ -26,10 +26,13 @@ model Admin {
 }
 
 model Tokens {
-  id         Int     @id @default(autoincrement())
-  user       User    @relation(fields: [user_id], references: [id])
-  user_id    Int     @unique
-  resetToken String? @unique
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    Int
+  resetToken String?   @unique
+  usedAt     DateTime?
+  expiredAt  DateTime?
+  createdAt  DateTime  @default(now())
 }
 
 enum Role {
