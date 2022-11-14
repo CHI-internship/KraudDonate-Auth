@@ -3,6 +3,13 @@ import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
+const adminEmails = [
+  'admin_kraud@hotmail.com',
+  'admin_kraud@gmail.com',
+  'admin1_kraud@hotmail.com',
+  'admin2_kraud@hotmail.com',
+]
+
 const userData: Prisma.UserCreateInput[] = [
   {
     email: "Ulises_Dooley@gmail.com",
@@ -47,7 +54,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     email: "Aubree94@yahoo.com",
     password: "e220691b3e23647fc17c4b282bb469ac77fbadb8f5c77898294e42de95add560",
-    role: 'admin',
+    role: 'volunteer',
   },
   {
     email: "Arvid_Beer@hotmail.com",
@@ -66,6 +73,17 @@ async function main() {
     })
     
     console.log(`Created user with id: ${user.id}`);
+  }
+
+  for (let i = 0; i < 4; i++) {
+    const admin = await prisma.admin.create({
+      data: {
+        email: adminEmails[i],
+        password: "e220691b3e23647fc17c4b282bb469ac77fbadb8f5c77898294e42de95add560"
+      }
+    })
+
+    console.log(`Created admin with id: ${admin.id}`);
   }
 
   console.log(`Seeding finished!`);
