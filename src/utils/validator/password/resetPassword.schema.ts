@@ -24,12 +24,16 @@ export const ResetPasswordSchema: JSONSchemaType<ResetPasswordDto> = {
   },
   then: {
     properties: {
-      newPassword: {
+      newPasswordConfirm: {
         const: {
           $data: "1/newPassword"
         }
       }
     }
-  }
-
+  },
+  errorMessage: {
+    properties: {
+      newPasswordConfirm: "should be a string and match the newPassword"
+    }
+  },
 }
