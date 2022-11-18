@@ -1,4 +1,6 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common';
+import { LoginAdminSchema } from 'src/utils/validator/admin/loginAdmin.schema';
+import { AjvValidationPipe } from 'src/utils/validator/validation';
 import { AdminAuthService } from './admin-auth.service';
 import { LoginAdminDto } from './dto/login-admin.dto';
 
@@ -8,6 +10,7 @@ export class AdminAuthController {
 
   @Post('sign-in')
   @HttpCode(201)
+  @UsePipes(new AjvValidationPipe(LoginAdminSchema))
   async adminLogin(@Body() adminPayload: LoginAdminDto) {
     return this.adminAuthService.adminLogin(adminPayload);
   }
