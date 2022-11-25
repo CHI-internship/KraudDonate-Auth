@@ -3,6 +3,11 @@
 KraudDonate-Service is part of the KraudDonate application to help volunteers.
 It is used to develop authorization.
 
+## Configuration
+
+1. Create .env file in root
+2. Add values from .env.example
+
 ## Installation
 
 ```bash
