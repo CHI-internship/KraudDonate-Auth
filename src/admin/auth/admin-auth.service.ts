@@ -34,7 +34,7 @@ export class AdminAuthService {
   }
 
   async generateToken(email: string, id: number) {
-    const payload = { email, id };
+    const payload = { email, id, role: 'admin' };
     return this.jwtService.sign(payload);
   }
 }
