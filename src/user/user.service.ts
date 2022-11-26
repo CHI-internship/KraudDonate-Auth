@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import UserRepository from './repository/user.repository';
 
-
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
@@ -23,7 +22,7 @@ export class UserService {
 
     return user;
   }
-  
+
   async updateUserPassword(id: number, password: string) {
     const user = await this.userRepository.updatePassword(id, password);
 

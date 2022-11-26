@@ -1,4 +1,9 @@
-import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+import {
+  PipeTransform,
+  Injectable,
+  ArgumentMetadata,
+  BadRequestException,
+} from '@nestjs/common';
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { SchemaType } from './types';
@@ -10,7 +15,7 @@ export class AjvValidationPipe implements PipeTransform {
 
   constructor(private schema: JSONSchemaType<SchemaType>) {
     if (!this._ajv) {
-      this._ajv = new Ajv({allErrors: true, $data: true,});
+      this._ajv = new Ajv({ allErrors: true, $data: true });
       addFormats(this._ajv);
       ajvErrors(this._ajv);
     }
@@ -25,14 +30,14 @@ export class AjvValidationPipe implements PipeTransform {
     const isValid = validate(value);
 
     if (validate.errors) {
-      let resError: Array<string> = [];
+      const resError: Array<string> = [];
 
-      for (let message of validate.errors) {
-        let error = message.instancePath + " " + message.message;
+      for (const message of validate.errors) {
+        const error = message.instancePath + ' ' + message.message;
         resError.push(error);
       }
 
-      throw new BadRequestException(resError)
+      throw new BadRequestException(resError);
     }
 
     return value;

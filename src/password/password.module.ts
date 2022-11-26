@@ -23,6 +23,6 @@ import TokensRepository from 'src/tokens/repository/tokens.repository';
       name: 'reset',
     }),
     UserModule,
-  ]
+  ],
 })
 export class PasswordModule {}

@@ -1,6 +1,6 @@
-import { JSONSchemaType } from "ajv";
+import { JSONSchemaType } from 'ajv';
 
 export const email: JSONSchemaType<string> = {
-  type: "string",
-  format: "email"
-}
+  type: 'string',
+  format: 'email',
+};

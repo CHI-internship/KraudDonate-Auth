@@ -1,5 +1,5 @@
 export class ResetPasswordDto {
-  resetToken: string
-  newPassword: string
-  newPasswordConfirm: string
+  resetToken: string;
+  newPassword: string;
+  newPasswordConfirm: string;
 }

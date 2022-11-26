@@ -1,17 +1,17 @@
-import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
-import { PrismaService } from "src/services/prisma.service";
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
 export default abstract class Repository {
   constructor(protected readonly prismaService: PrismaService) {}
 
   async query(query: string) {
-    const data = await this.prismaService.$queryRaw(
-      Prisma.sql`${query}`
-    ).catch((e) => {
-      throw new Error(e);
-    })
+    const data = await this.prismaService
+      .$queryRaw(Prisma.sql`${query}`)
+      .catch((e) => {
+        throw new Error(e);
+      });
 
     return data;
   }
