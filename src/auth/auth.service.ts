@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
-
+import { RefreshTokensDto } from './dto/refresh-tokens.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
 
   async registration(userDto: CreateUserDto) {
     const { email, password, role } = userDto;
-    
+
     const candidate = await this.usersService.getUserByEmail(email);
 
     if (candidate) {
@@ -35,19 +35,45 @@ export class AuthService {
       role,
     );
 
-    return this.generateToken(email, role);
+    const accessToken = await this.generateToken(email, role, {
+      expiresIn: '1m',
+    });
+    const refreshToken = await this.generateToken(email, role, {
+      expiresIn: '2m',
+    });
+
+    return { accessToken, refreshToken };
   }
 
   async login(userDto: LoginUserDto) {
     const user = await this.validateUser(userDto);
-    return this.generateToken(user.email, user.role);
+
+    const accessToken = await this.generateToken(user.email, user.role, {
+      expiresIn: '1m',
+    });
+    const refreshToken = await this.generateToken(user.email, user.role, {
+      expiresIn: '4m',
+    });
+    return { accessToken, refreshToken };
+  }
+
+  async refreshTokens(refreshTokensDto: RefreshTokensDto) {
+    const { email, role } = refreshTokensDto;
+
+    const accessToken = await this.generateToken(email, role, {
+      expiresIn: '1m',
+    });
+    const refreshToken = await this.generateToken(email, role, {
+      expiresIn: '4m',
+    });
+    return { accessToken, refreshToken };
   }
 
   private async validateUser(userDto: LoginUserDto) {
     const { email, password } = userDto;
 
     const user = await this.usersService.getUserByEmail(email);
-   
+
     if (!user) {
       throw new BadRequestException('Wrong email');
     }
@@ -64,8 +90,12 @@ export class AuthService {
     return user;
   }
 
-  async generateToken(email: string, role: string) {
+  async generateToken(
+    email: string,
+    role: string,
+    config: JwtSignOptions = { expiresIn: '1d' },
+  ) {
     const payload = { email, role };
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(payload, config);
   }
 }
