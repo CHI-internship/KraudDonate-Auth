@@ -36,10 +36,10 @@ export class AuthService {
     );
 
     const accessToken = await this.generateToken(email, role, {
-      expiresIn: '1m',
+      expiresIn: '1d',
     });
     const refreshToken = await this.generateToken(email, role, {
-      expiresIn: '2m',
+      expiresIn: '2d',
     });
 
     return { accessToken, refreshToken };
@@ -49,10 +49,10 @@ export class AuthService {
     const user = await this.validateUser(userDto);
 
     const accessToken = await this.generateToken(user.email, user.role, {
-      expiresIn: '1m',
+      expiresIn: '1d',
     });
     const refreshToken = await this.generateToken(user.email, user.role, {
-      expiresIn: '4m',
+      expiresIn: '2d',
     });
     return { accessToken, refreshToken };
   }
@@ -61,10 +61,10 @@ export class AuthService {
     const { email, role } = refreshTokensDto;
 
     const accessToken = await this.generateToken(email, role, {
-      expiresIn: '1m',
+      expiresIn: '2d',
     });
     const refreshToken = await this.generateToken(email, role, {
-      expiresIn: '4m',
+      expiresIn: '2d',
     });
     return { accessToken, refreshToken };
   }
@@ -90,11 +90,7 @@ export class AuthService {
     return user;
   }
 
-  async generateToken(
-    email: string,
-    role: string,
-    config: JwtSignOptions = { expiresIn: '1d' },
-  ) {
+  async generateToken(email: string, role: string, config: JwtSignOptions) {
     const payload = { email, role };
     return this.jwtService.sign(payload, config);
   }

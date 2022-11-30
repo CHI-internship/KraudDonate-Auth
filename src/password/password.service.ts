@@ -37,6 +37,7 @@ export class PasswordService {
     const resetToken = await this.authService.generateToken(
       user.email,
       user.role,
+      { expiresIn: '1d' },
     );
 
     await this.tokensRepository.create(user.id, resetToken).then(
