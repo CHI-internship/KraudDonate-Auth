@@ -1,11 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createBullBoard } = require('@bull-board/api');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { BullAdapter } = require('@bull-board/api/bullAdapter');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { ExpressAdapter } = require('@bull-board/express');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Queue = require('bull');
+import { ExpressAdapter } from '@bull-board/express';
+import * as Queue from 'bull';
+import { BullAdapter } from '@bull-board/api/bullAdapter';
+import { createBullBoard } from '@bull-board/api';
 
 export const serverAdapter = new ExpressAdapter().setBasePath('/admin/queues');
 
