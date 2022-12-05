@@ -22,6 +22,5 @@ export const RESET_TEMP = (resetUlr: string) => {
     Reset
   </a>
 </div>
-  `}
-
-
+  `;
+};
