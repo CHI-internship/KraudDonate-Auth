@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "husky install",
+    "prepare": "husky install && chmod ug+x .husky/*",
     "migration:create": "npx prisma migrate dev --name",
     "buildDb": "docker build -t postgresdb . ",
     "upDb": "docker run -d --name postgresdb --rm -v /postgres-data-auth:/var/lib/postgresql/data -p 7532:5432 postgresdb",
