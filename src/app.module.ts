@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PasswordModule } from './password/password.module';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -7,6 +7,7 @@ import { BullModule } from '@nestjs/bull';
 import { UserModule } from './user/user.module';
 import { AdminAuthModule } from './admin/auth/admin-auth.module';
 import { AdminPassModule } from './admin/admin-password/admin-password.module';
+import { LoggerMiddleware } from './middlewares/req.logger';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env' }),
@@ -26,4 +27,8 @@ import { AdminPassModule } from './admin/admin-password/admin-password.module';
     AdminPassModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
