@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
-import { AjvValidationPipe } from 'src/utils/validator/validation';
-import { CreateUserSchema, LoginUserSchema } from 'src/utils/validator/user';
+import { AjvValidationPipe } from '../utils/validator/validation';
+import { CreateUserSchema, LoginUserSchema } from '../utils/validator/user';
 import { RefreshTokensDto } from './dto/refresh-tokens.dto';
 
 @Controller('auth')

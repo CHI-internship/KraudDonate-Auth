@@ -3,7 +3,7 @@ import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import * as crypto from 'crypto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { RefreshTokensDto } from './dto/refresh-tokens.dto';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthService {
 
     if (candidate) {
       throw new BadRequestException(
-        `User with this email  ${email} has already exist`,
+        `User with this email ${email} has already exist`,
       );
     }
 
@@ -54,6 +54,7 @@ export class AuthService {
     const refreshToken = await this.generateToken(user.email, user.role, {
       expiresIn: '2d',
     });
+
     return { accessToken, refreshToken };
   }
 
