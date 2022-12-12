@@ -1,4 +1,4 @@
-import Repository from 'src/repository/repository';
+import Repository from '../../repository/repository';
 
 export default class UserRepository extends Repository {
   async getUserByEmail(email: string) {
