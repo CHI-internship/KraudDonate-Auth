@@ -3,6 +3,21 @@ orbs:
   node: circleci/node@5.0.2
   docker: circleci/docker@2.2.0
 jobs:
+  lint_check: 
+    executor: node/default 
+    steps:
+      - checkout
+      - node/install:
+          node-version: "16.15.1"
+      - run:
+          command: npm i
+          name: Run installation of packages
+      - run:
+          name: Run lint check
+          command: npm run lint
+      - run:
+          name: Run build
+          command: npm run build
   docker_push: 
     executor: docker/docker
     steps:
@@ -31,10 +46,25 @@ jobs:
 workflows:
   auth-workflow:
     jobs:
-      # - node_build        
-      - docker_push
+      - node_build:
+          filters:
+            branches:
+              only:
+                - dev
+                - main  
+      - docker_push:
+          requires:
+            - node_build  
+          filters:
+            branches:
+              only:
+                - dev
+                - main  
       - aws_instance:
           requires:
-            - docker_push    
-          # requires:
-          #   - node_build
+            - docker_push
+          filters:
+            branches:
+              only:
+                - dev
+                - main
