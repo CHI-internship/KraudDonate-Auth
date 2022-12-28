@@ -17,9 +17,10 @@ jobs:
   #         command: npm run build
   docker_push: 
     executor: docker/docker
-    auth:
-      username: tanyadovzhenko
-      password: $DOCKER_PASS 
+    docker: 
+        auth:
+          username: tanyadovzhenko
+          password: $DOCKER_PASS 
     steps:
       - setup_remote_docker
       - checkout
