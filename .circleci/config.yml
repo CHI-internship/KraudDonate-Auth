@@ -21,7 +21,10 @@ jobs:
           command: |
             docker push tanyadovzhenko/auth-nestjs
   aws_instance: 
+    machine:
+      image: ubuntu-2004:202008-01
     steps:
+      - checkout
       - run:
           name: Connect to aws instance
           command: |
@@ -32,5 +35,7 @@ workflows:
       # - node_build        
       - docker_push
       - aws_instance
+          requires:
+            - docker_push    
           # requires:
           #   - node_build
