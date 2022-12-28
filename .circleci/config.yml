@@ -51,8 +51,7 @@ workflows:
             branches:
               only:
                 - dev
-                - main  
-                - feature/docker_aws_circleci
+                - main
       - docker_push:
           requires:
             - lint_check_build  
@@ -60,8 +59,7 @@ workflows:
             branches:
               only:
                 - dev
-                - main  
-                - feature/docker_aws_circleci
+                - main
       - aws_instance:
           requires:
             - docker_push
@@ -70,4 +68,3 @@ workflows:
               only:
                 - dev
                 - main
-                - feature/docker_aws_circleci
