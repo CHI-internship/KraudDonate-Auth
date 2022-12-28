@@ -28,15 +28,16 @@ jobs:
       - run:
           name: Connect to aws instance
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@54.152.60.99 -timeout 1m
-      - run:
-          name: Stop docker-compose
-          command: |
-            docker-compose stop
-      - run:
-          name: Stop docker-up
-          command: |
-            docker-compose up -d
+            ssh -o StrictHostKeyChecking=no ubuntu@54.152.60.99 "docker-compose stop"
+            ssh -oStrictHostKeyChecking=no -v ubuntu@$HOST "docker-compose up -d"
+      # - run:
+      #     name: Stop docker-compose
+      #     command: |
+      #       docker-compose stop
+      # - run:
+      #     name: Stop docker-up
+      #     command: |
+      #       docker-compose up -d
 workflows:
   auth-workflow:
     jobs:
