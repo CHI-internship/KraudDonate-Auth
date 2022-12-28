@@ -3,36 +3,22 @@ orbs:
   node: circleci/node@5.0.2
   docker: circleci/docker@2.2.0
 jobs:
-  # node_build: 
-  #   executor: node/default 
-  #   steps:
-  #     - checkout
-  #     - node/install:
-  #         node-version: "16.15.1"
-  #     - run:
-  #         command: npm i
-  #         name: Run installation of packages
-  #     - run:
-  #         name: Run build
-  #         command: npm run build
   docker_push: 
     executor: docker/docker
-    # docker: 
-    #     auth:
-    #       username: tanyadovzhenko
-    #       password: $DOCKER_PASS 
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
-      - run:
-          name: Docker login
-          command: echo | set /p="tanyaddzz11" | docker login --username tanyadovzhenko --password-stdin
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
+          auth:
+            username: tanyadovzhenko
+            password: tanyaddzz11
           tag: latest
       - docker/push:
           image: tanyadovzhenko/auth-nestjs
+          auth:
+            username: tanyadovzhenko
+            password: tanyaddzz11
           tag: latest
 workflows:
   auth-workflow:
