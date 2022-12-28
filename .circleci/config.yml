@@ -23,13 +23,10 @@ jobs:
   aws_instance: 
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "5d:77:b0:66:e5:80:ac:22:7c:30:3c:4b:5b:91:70:dd"
       - run:
           name: Connect to aws instance
           command: |
-            ssh -i 5d:77:b0:66:e5:80:ac:22:7c:30:3c:4b:5b:91:70:dd ubuntu@54.152.60.99
+            ssh ubuntu@54.152.60.99
       # - run:
       #     name: Docker build
       #     command: |
