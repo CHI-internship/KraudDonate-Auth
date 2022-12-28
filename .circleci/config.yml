@@ -10,9 +10,6 @@ jobs:
       - checkout
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
-          auth:
-            username: tanyadovzhenko
-            password: tanyaddzz11
           tag: latest
       - docker/push:
           image: tanyadovzhenko/auth-nestjs
