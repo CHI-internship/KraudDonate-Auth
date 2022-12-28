@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
+  docker: circleci/docker@2.2.0
 jobs:
-  lint_check: 
+  lint_check_build: 
     executor: node/default 
     steps:
       - checkout
@@ -14,7 +15,56 @@ jobs:
       - run:
           name: Run lint check
           command: npm run lint
+      - run:
+          name: Run build
+          command: npm run build
+  docker_push: 
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Login Docker
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Docker build
+          command: docker build -t tanyadovzhenko/auth-nestjs .
+      - run:
+          name: Docker push
+          command: docker push tanyadovzhenko/auth-nestjs
+  aws_instance: 
+    machine:
+      image: ubuntu-2004:202008-01
+    steps:
+      - checkout
+      - run:
+          name: Connect to aws instance
+          command: |
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose stop"
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose up -d"
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "sudo service nginx restart"
 workflows:
   auth-workflow:
     jobs:
-      - lint_check            
+      - lint_check_build:
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+      - docker_push:
+          requires:
+            - lint_check_build  
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+      - aws_instance:
+          requires:
+            - docker_push
+          filters:
+            branches:
+              only:
+                - dev
+                - main
