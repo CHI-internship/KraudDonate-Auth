@@ -32,6 +32,6 @@ workflows:
     jobs:
       - node_build        
       - docker_push:
-        requires:
-          - node_build
+          requires:
+            - node_build
 
