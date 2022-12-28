@@ -22,6 +22,10 @@ jobs:
           name: Docker build
           command: |
             docker build -t tanyadovzhenko/auth-nestjs .
+      - run:
+          name: Docker push
+          command: |
+            docker push tanyadovzhenko/auth-nestjs
 workflows:
   auth-workflow:
     jobs:
