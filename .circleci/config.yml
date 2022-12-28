@@ -17,17 +17,17 @@ jobs:
   #         command: npm run build
   docker_push: 
     executor: docker/docker
-    docker: 
-        auth:
-          username: tanyadovzhenko
-          password: $DOCKER_PASS 
+    # docker: 
+    #     auth:
+    #       username: tanyadovzhenko
+    #       password: $DOCKER_PASS 
     steps:
       - setup_remote_docker
       - checkout
       - docker/check
-      # - run:
-      #     name: Docker login
-      #     command: echo tanyaddzz11 | docker login --username tanyadovzhenko --password-stdin
+      - run:
+          name: Docker login
+          command: echo | set /p="tanyaddzz11" | docker login --username tanyadovzhenko --password-stdin
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
           tag: latest
