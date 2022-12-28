@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Connect to aws instance
           command: |
-            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose stop"
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose up -d"
       # - run:
       #     name: Stop docker-compose
       #     command: |
