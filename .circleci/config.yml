@@ -50,7 +50,6 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - main
       - docker_push:
           requires:
@@ -58,7 +57,6 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - main
       - aws_instance:
           requires:
@@ -66,5 +64,4 @@ workflows:
           filters:
             branches:
               only:
-                - dev
                 - main
