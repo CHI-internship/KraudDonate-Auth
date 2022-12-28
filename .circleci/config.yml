@@ -28,15 +28,9 @@ jobs:
       - run:
           name: Connect to aws instance
           command: |
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose stop"
             ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "docker-compose up -d"
-      # - run:
-      #     name: Stop docker-compose
-      #     command: |
-      #       docker-compose stop
-      # - run:
-      #     name: Stop docker-up
-      #     command: |
-      #       docker-compose up -d
+            ssh -oStrictHostKeyChecking=no -v ubuntu@54.152.60.99 "sudo service nginx restart"
 workflows:
   auth-workflow:
     jobs:
