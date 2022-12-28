@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@5.0.2
   docker: circleci/docker@2.2.0
 jobs:
-  lint_check: 
+  lint_check_build: 
     executor: node/default 
     steps:
       - checkout
@@ -46,7 +46,7 @@ jobs:
 workflows:
   auth-workflow:
     jobs:
-      - node_build:
+      - lint_check_build:
           filters:
             branches:
               only:
@@ -54,7 +54,7 @@ workflows:
                 - main  
       - docker_push:
           requires:
-            - node_build  
+            - lint_check_build  
           filters:
             branches:
               only:
