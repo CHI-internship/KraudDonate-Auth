@@ -23,7 +23,7 @@ jobs:
       - docker/check
       - run:
           name: Docker login
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+          command: echo "$PARAM_DOCKER_PASSWORD" | docker login -u "$PARAM_DOCKER_USERNAME" --password-stdin "$PARAM_REGISTRY"
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
           tag: latest
