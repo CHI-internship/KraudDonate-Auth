@@ -40,5 +40,6 @@ workflows:
     jobs:
       # - node_build        
       - docker_push
+      - aws_instance
           # requires:
           #   - node_build
