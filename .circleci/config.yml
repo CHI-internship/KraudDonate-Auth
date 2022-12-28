@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
+  docker: circleci/docker@2.2.0
 jobs:
-  lint_check: 
+  node_build: 
     executor: node/default 
     steps:
       - checkout
@@ -12,9 +13,22 @@ jobs:
           command: npm i
           name: Run installation of packages
       - run:
-          name: Run lint check
-          command: npm run lint
+          name: Run build
+          command: npm run build
+  docker_push: 
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: tanyadovzhenko/auth-nestjs
+          tag: latest
+      - docker/push:
+          image: tanyadovzhenko/auth-nestjs
+          tag: latest
 workflows:
   auth-workflow:
     jobs:
-      - lint_check            
+      - node_build        
+      - docker_push    
