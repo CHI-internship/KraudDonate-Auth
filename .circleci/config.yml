@@ -8,15 +8,19 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/build:
-          image: tanyadovzhenko/auth-nestjs
-          tag: latest
-      - docker/push:
-          image: tanyadovzhenko/auth-nestjs
-          auth:
-            username: tanyadovzhenko
-            password: tanyaddzz11
-          tag: latest
+      # - docker/build:
+      #     image: tanyadovzhenko/auth-nestjs
+      #     tag: latest
+      # - docker/push:
+      #     image: tanyadovzhenko/auth-nestjs
+      #     auth:
+      #       username: tanyadovzhenko
+      #       password: tanyaddzz11
+      #     tag: latest
+      - run:
+          name: Login Docker
+          command: |
+            docker login u $DOCKER_USER -p $DOCKER_PASS
 workflows:
   auth-workflow:
     jobs:
