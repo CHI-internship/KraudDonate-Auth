@@ -10,16 +10,13 @@ jobs:
       - checkout
       - run:
           name: Login Docker
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Docker build
-          command: |
-            docker build -t tanyadovzhenko/auth-nestjs .
+          command: docker build -t tanyadovzhenko/auth-nestjs .
       - run:
           name: Docker push
-          command: |
-            docker push tanyadovzhenko/auth-nestjs
+          command: docker push tanyadovzhenko/auth-nestjs
   aws_instance: 
     machine:
       image: ubuntu-2004:202008-01
