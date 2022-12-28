@@ -5,6 +5,8 @@ orbs:
 jobs:
   docker_push: 
     executor: docker/docker
+    machine:
+      image: ubuntu-2004:202008-01
     steps:
       - setup_remote_docker
       - checkout
@@ -20,22 +22,22 @@ jobs:
           name: Docker push
           command: |
             docker push tanyadovzhenko/auth-nestjs
-  aws_instance: 
-    machine:
-      image: ubuntu-2004:202008-01
-    steps:
-      - checkout
       - run:
           name: Connect to aws instance
           command: |
             ssh -o StrictHostKeyChecking=no ubuntu@54.152.60.99
+      - run:
+          name: Stop docker-compose
+          command: |
+            docker-compose stop
+      - run:
+          name: Run docker-compose
+          command: |
+            docker-compose up -d
 workflows:
   auth-workflow:
     jobs:
       # - node_build        
       - docker_push
-      - aws_instance:
-          requires:
-            - docker_push    
           # requires:
           #   - node_build
