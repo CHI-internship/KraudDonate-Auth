@@ -47,24 +47,27 @@ workflows:
   auth-workflow:
     jobs:
       - lint_check_build:
-          # filters:
-          #   branches:
-          #     only:
-          #       - dev
-          #       - main  
+          filters:
+            branches:
+              only:
+                - dev
+                - main  
+                - feature/docker_aws_circleci
       - docker_push:
           requires:
             - lint_check_build  
-          # filters:
-          #   branches:
-          #     only:
-          #       - dev
-          #       - main  
+          filters:
+            branches:
+              only:
+                - dev
+                - main  
+                - feature/docker_aws_circleci
       - aws_instance:
           requires:
             - docker_push
-          # filters:
-          #   branches:
-          #     only:
-          #       - dev
-          #       - main
+          filters:
+            branches:
+              only:
+                - dev
+                - main
+                - feature/docker_aws_circleci
