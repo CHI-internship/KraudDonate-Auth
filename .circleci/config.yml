@@ -23,7 +23,7 @@ jobs:
       - docker/check
       - run:
           name: Docker login
-          command: docker login -u tanyadovzhenko --password-stdin tanyaddzz11
+          command: docker login -u tanyadovzhenko -p tanyaddzz11
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
           tag: latest
