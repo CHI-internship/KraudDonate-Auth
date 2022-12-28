@@ -3,18 +3,18 @@ orbs:
   node: circleci/node@5.0.2
   docker: circleci/docker@2.2.0
 jobs:
-  node_build: 
-    executor: node/default 
-    steps:
-      - checkout
-      - node/install:
-          node-version: "16.15.1"
-      - run:
-          command: npm i
-          name: Run installation of packages
-      - run:
-          name: Run build
-          command: npm run build
+  # node_build: 
+  #   executor: node/default 
+  #   steps:
+  #     - checkout
+  #     - node/install:
+  #         node-version: "16.15.1"
+  #     - run:
+  #         command: npm i
+  #         name: Run installation of packages
+  #     - run:
+  #         name: Run build
+  #         command: npm run build
   docker_push: 
     executor: docker/docker
     steps:
@@ -23,7 +23,7 @@ jobs:
       - docker/check
       - run:
           name: Docker login
-          command: echo "$PARAM_DOCKER_PASSWORD" | docker login -u "$PARAM_DOCKER_USERNAME" --password-stdin "$PARAM_REGISTRY"
+          command: docker login -u tanyadovzhenko --password-stdin tanyaddzz11
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
           tag: latest
@@ -33,7 +33,7 @@ jobs:
 workflows:
   auth-workflow:
     jobs:
-      - node_build        
-      - docker_push:
-          requires:
-            - node_build
+      # - node_build        
+      - docker_push
+          # requires:
+          #   - node_build
