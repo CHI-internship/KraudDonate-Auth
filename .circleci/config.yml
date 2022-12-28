@@ -21,6 +21,9 @@ jobs:
       - setup_remote_docker
       - checkout
       - docker/check
+      - run:
+          name: Docker login
+          command: docker login -u "tanyadovzhenko" --password-stdin "tanyaddzz11"
       - docker/build:
           image: tanyadovzhenko/auth-nestjs
           tag: latest
@@ -34,4 +37,3 @@ workflows:
       - docker_push:
           requires:
             - node_build
-
